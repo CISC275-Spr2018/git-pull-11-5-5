@@ -38,8 +38,9 @@ public class Controller {
 							c.model.setDirect(r.nextInt(7));
 							c.view.setChangeDir(false);
 						}
-						c.model.updateLocationAndDirection();
+						c.model.updateLocationAndDirection(c.view.viewUpdate,c.view.numDirection);
 						c.view.update(c.model.getX(),c.model.getY(),c.model.getDirect());
+						c.view.viewUpdate = false;
 					}
 				}
 			};

@@ -108,7 +108,23 @@ public class Model{
 		}
 	}
 	
-	public void updateLocationAndDirection() {
+	public void updateLocationAndDirection(boolean viewUpdate, int numDirection) {
+		if(viewUpdate) {
+			switch(numDirection) {
+				case 0:
+					direction = Direction.SOUTH;
+					break;
+				case 1:
+					direction = Direction.EAST;
+					break;
+				case 2:
+					direction = Direction.WEST;
+					break;
+				case 3:
+					direction = Direction.NORTH;
+					break;
+			}
+		}
 		switch(direction) {
 			case NORTH:
 				if((yLoc) <= 0)

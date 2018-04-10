@@ -53,6 +53,8 @@ public class View extends JFrame implements ActionListener{
     BorderLayout ourLayout = new BorderLayout();
     JPanel buttonPanel = new JPanel();
     boolean dirChange = false;
+    public boolean viewUpdate = false;
+    public int numDirection = 0;
 	
     
     public void setUpPanel() {
@@ -87,8 +89,7 @@ public class View extends JFrame implements ActionListener{
     }
 	
     public View() {
-	    
-	    
+    	
 	    setLayout(ourLayout);
 	    setUpPanel();
 	    
@@ -99,8 +100,9 @@ public class View extends JFrame implements ActionListener{
     	};
     
     	
-    	add(drawPanel,BorderLayout.SOUTH);
     	add(buttonPanel,BorderLayout.NORTH);
+    	addKeyListener(drawPanel);
+    	add(drawPanel,BorderLayout.SOUTH);
     	
     	
     	setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -144,7 +146,39 @@ public class View extends JFrame implements ActionListener{
 	}
 	
 	@SuppressWarnings("serial")
-	public class DrawPanel extends JPanel {
+	public class DrawPanel extends JPanel 
+						   implements KeyListener{
+		
+		@Override
+		public void keyTyped(KeyEvent e) {
+			
+		}
+		
+		@Override
+		public void keyPressed(KeyEvent e) {
+			System.out.println("Key press registered");
+			switch(e.getKeyCode()) {
+				case KeyEvent.VK_DOWN:
+					numDirection = 0;
+					break;
+				case KeyEvent.VK_RIGHT:
+					numDirection = 1;
+					break;
+				case KeyEvent.VK_LEFT:
+					numDirection = 2;
+					break;
+				case KeyEvent.VK_UP:
+					numDirection = 3;
+					break;
+			}
+			viewUpdate = true;
+		}
+		
+		@Override
+		public void keyReleased(KeyEvent e) {
+			
+		}
+		
     	int picNum = 0;
 
 		protected void paintComponent(Graphics g) {
