@@ -35,7 +35,7 @@ public class Model{
 	private int imageWidth;
 	private int imageHeight;
 	final int xIncr = 8;
-    final int yIncr = 2;
+    final int yIncr = 8;
 	
 	public Model(int imgWidth, int imgHeight, int width, int height) {
 		imageWidth = imgWidth;

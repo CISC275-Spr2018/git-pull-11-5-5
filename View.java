@@ -100,7 +100,7 @@ public class View extends JFrame implements ActionListener{
     	};
     
     	
-    	add(buttonPanel,BorderLayout.NORTH);
+    	//add(buttonPanel,BorderLayout.NORTH);
     	getContentPane().add(drawPanel);
     	add(drawPanel,BorderLayout.SOUTH);
     	
