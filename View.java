@@ -101,9 +101,8 @@ public class View extends JFrame implements ActionListener{
     
     	
     	add(buttonPanel,BorderLayout.NORTH);
-    	addKeyListener(drawPanel);
+    	getContentPane().add(drawPanel);
     	add(drawPanel,BorderLayout.SOUTH);
-    	
     	
     	setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
     	
@@ -125,6 +124,7 @@ public class View extends JFrame implements ActionListener{
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	setSize(frameStartSize, frameStartSize);
     	setVisible(true);
+    	//setLocationByPlatform(true);
     	pack();
 	}
 	
@@ -146,37 +146,46 @@ public class View extends JFrame implements ActionListener{
 	}
 	
 	@SuppressWarnings("serial")
-	public class DrawPanel extends JPanel 
-						   implements KeyListener{
+	public class DrawPanel extends JPanel {
 		
-		@Override
-		public void keyTyped(KeyEvent e) {
+		
+		public DrawPanel() {
+			ActionMap actionMap = getActionMap();
+			int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
+			InputMap inputMap = getInputMap(condition);
 			
-		}
-		
-		@Override
-		public void keyPressed(KeyEvent e) {
-			System.out.println("Key press registered");
-			switch(e.getKeyCode()) {
-				case KeyEvent.VK_DOWN:
-					numDirection = 0;
-					break;
-				case KeyEvent.VK_RIGHT:
-					numDirection = 1;
-					break;
-				case KeyEvent.VK_LEFT:
-					numDirection = 2;
-					break;
-				case KeyEvent.VK_UP:
-					numDirection = 3;
-					break;
+			for(KeyDir keyDirection: KeyDir.values()) {
+				inputMap.put(keyDirection.getKeyStroke(), keyDirection.getText());
+				actionMap.put(keyDirection.getText(), new MyArrowBinding(keyDirection.getText()));
 			}
-			viewUpdate = true;
+			
 		}
 		
-		@Override
-		public void keyReleased(KeyEvent e) {
+		private class MyArrowBinding extends AbstractAction {
+			public MyArrowBinding(String text) {
+				super(text);
+				putValue(ACTION_COMMAND_KEY,text);
+			}
 			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String actionCommand = e.getActionCommand();
+				switch(actionCommand) {
+					case "Down":
+						numDirection = 0;
+						break;
+					case "Right":
+						numDirection = 1;
+						break;
+					case "Left":
+						numDirection = 2;
+						break;
+					case "Up":
+						numDirection = 3;
+						break;
+				}
+				viewUpdate = true;
+			}
 		}
 		
     	int picNum = 0;
@@ -267,4 +276,31 @@ public class View extends JFrame implements ActionListener{
     	}
     	return null;
     }
+}
+
+enum KeyDir {
+	UP("Up",KeyStroke.getKeyStroke(KeyEvent.VK_UP,0)),
+	DOWN("Down",KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,0)),
+	LEFT("Left",KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,0)),
+	RIGHT("Right",KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,0));
+	
+	KeyDir(String text, KeyStroke keyStroke) {
+	      this.text = text;
+	      this.keyStroke = keyStroke;
+	}
+	private String text;
+	private KeyStroke keyStroke;
+	
+	public String getText() {
+		return text;
+	}
+	
+	public KeyStroke getKeyStroke() {
+		return keyStroke;
+	}
+	
+	@Override
+	public String toString() {
+		return text;
+	}
 }
