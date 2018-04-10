@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-
+//One update in updateLocationAndDirection to account for arrow key presses
 
 /**
  * Model: Contains all the state and logic

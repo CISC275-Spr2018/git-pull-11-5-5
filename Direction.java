@@ -1,5 +1,8 @@
 
 import java.util.*;
+
+//no changes made to Direction so far
+
 public enum Direction {
 
 	NORTH("north"),

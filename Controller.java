@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.util.*;
 
+//Input new arguments to the call to model object's updateLocationAndDirection to pass in new info from View to Model
+
 public class Controller {
 
 	private Model model;

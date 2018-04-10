@@ -20,6 +20,9 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
 
+//Updated View Constructor, DrawPanel constructor, added additional class inside DrawPanel, added additional enum to allow for 
+//arrow key movement
+
 /**
  * View: Contains everything about graphics and images
  * Know size of world, which images to load etc
