@@ -246,34 +246,8 @@ public class View extends JFrame implements ActionListener{
 	private BufferedImage createImage(int num, Direction direction){ //right now this just loads a single image, since we're just trying to make drawing work
     	BufferedImage bufferedImage;
     	try {
-    		switch (num) {
-			case 0:
-				bufferedImage = ImageIO.read(new File("images/orc/orc_forward_southeast.png"));
-				return bufferedImage;
-			case 1:
-				bufferedImage = ImageIO.read(new File("images/orc/orc_forward_southwest.png"));
-				return bufferedImage;
-			case 2:
-				bufferedImage = ImageIO.read(new File("images/orc/orc_forward_northeast.png"));
-				return bufferedImage;
-			case 3:
-				bufferedImage = ImageIO.read(new File("images/orc/orc_forward_northwest.png"));
-				return bufferedImage;
-			case 4:
-				bufferedImage = ImageIO.read(new File("images/orc/orc_forward_east.png"));
-				return bufferedImage;
-			case 5:
-				bufferedImage = ImageIO.read(new File("images/orc/orc_forward_west.png"));
-				return bufferedImage;
-			case 6:
-				bufferedImage = ImageIO.read(new File("images/orc/orc_forward_south.png"));
-				return bufferedImage;
-			case 7:
-				bufferedImage = ImageIO.read(new File("images/orc/orc_forward_north.png"));
-				return bufferedImage;
-			default:
-				return null;
-    		}
+    		bufferedImage = ImageIO.read(new File("images/orc/orc_forward_" + direction + ".png"));
+			return bufferedImage;
     	} catch (IOException e) {
     		e.printStackTrace();
     	}
