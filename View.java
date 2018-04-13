@@ -36,10 +36,16 @@ public class View extends JFrame implements ActionListener{
 	
 	protected JButton b1;
 	protected JButton b2;
-	final int frameCount = 10;
+	final int frameCountForward = 10;
+	final int frameCountJump = 8;
+	final int frameCountFire = 4;
     int picNum = 0;
-    BufferedImage[][] pics;
-	BufferedImage[] imgs = new BufferedImage[8];
+    BufferedImage[][] picsForward;
+    BufferedImage[][] picsJump;
+    BufferedImage[][] picsFire;
+	BufferedImage[] imgsForward = new BufferedImage[8];
+	BufferedImage[] imgsJump = new BufferedImage[8];
+	BufferedImage[] imgsFire = new BufferedImage[8];
 	Direction direction2 = Direction.SOUTHEAST;
     final int frameWidth = 500;
     final int frameHeight = 300;
@@ -58,6 +64,8 @@ public class View extends JFrame implements ActionListener{
     boolean dirChange = false;
     public boolean viewUpdate = false;
     public int numDirection = 0;
+    public boolean jump = false;
+    public boolean fire = false;
 	
     
     public void setUpPanel() {
@@ -109,19 +117,50 @@ public class View extends JFrame implements ActionListener{
     	
     	setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
     	
-    	imgs[0] = createImage(0, Direction.SOUTHEAST);
-		imgs[1] = createImage(1, Direction.SOUTHWEST);
-		imgs[2] = createImage(2, Direction.NORTHEAST);
-		imgs[3] = createImage(3, Direction.NORTHWEST);
-		imgs[4] = createImage(4, Direction.EAST);
-		imgs[5] = createImage(5, Direction.WEST);
-		imgs[6] = createImage(6, Direction.SOUTH);
-		imgs[7] = createImage(7, Direction.NORTH);
+    	imgsForward[0] = createImage(2, Direction.SOUTHEAST);
+		imgsForward[1] = createImage(2, Direction.SOUTHWEST);
+		imgsForward[2] = createImage(2, Direction.NORTHEAST);
+		imgsForward[3] = createImage(2, Direction.NORTHWEST);
+		imgsForward[4] = createImage(2, Direction.EAST);
+		imgsForward[5] = createImage(2, Direction.WEST);
+		imgsForward[6] = createImage(2, Direction.SOUTH);
+		imgsForward[7] = createImage(2, Direction.NORTH);
 		
-		pics = new BufferedImage[8][frameCount];//get this dynamically
-		for(int c = 0; c < imgs.length; c++){    	
-			for(int i = 0; i < frameCount; i++){
-				pics[c][i] = imgs[c].getSubimage(picSize*i, 0, picSize, picSize);
+		imgsJump[0] = createImage(0,Direction.SOUTHEAST);
+		imgsJump[1] = createImage(0,Direction.SOUTHWEST);
+		imgsJump[2] = createImage(0,Direction.NORTHEAST);
+		imgsJump[3] = createImage(0,Direction.NORTHWEST);
+		imgsJump[4] = createImage(0,Direction.EAST);
+		imgsJump[5] = createImage(0,Direction.WEST);
+		imgsJump[6] = createImage(0,Direction.SOUTH);
+		imgsJump[7] = createImage(0,Direction.NORTH);
+		
+		imgsFire[0] = createImage(1,Direction.SOUTHEAST);
+		imgsFire[1] = createImage(1,Direction.SOUTHWEST);
+		imgsFire[2] = createImage(1,Direction.NORTHEAST);
+		imgsFire[3] = createImage(1,Direction.NORTHWEST);
+		imgsFire[4] = createImage(1,Direction.EAST);
+		imgsFire[5] = createImage(1,Direction.WEST);
+		imgsFire[6] = createImage(1,Direction.SOUTH);
+		imgsFire[7] = createImage(1,Direction.NORTH);
+		
+		
+		picsForward = new BufferedImage[8][frameCountForward];//get this dynamically
+		picsJump = new BufferedImage[8][frameCountJump];
+		picsFire = new BufferedImage[8][frameCountFire];
+		for(int c = 0; c < imgsForward.length; c++){    	
+			for(int i = 0; i < frameCountForward; i++){
+				picsForward[c][i] = imgsForward[c].getSubimage(picSize*i, 0, picSize, picSize);
+			}
+		}
+		for(int c = 0; c < imgsJump.length; c++) {
+			for(int i = 0; i < frameCountJump; i++) {
+				picsJump[c][i] = imgsJump[c].getSubimage(picSize*i, 0, picSize, picSize);
+			}
+		}
+		for(int c = 0; c < imgsFire.length; c++) {
+			for(int i = 0; i < frameCountFire; i++) {
+				picsFire[c][i] = imgsFire[c].getSubimage(picSize*i, 0, picSize, picSize);
 			}
 		}
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -173,6 +212,9 @@ public class View extends JFrame implements ActionListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String actionCommand = e.getActionCommand();
+				if(jump) {
+					jump = false;
+				}
 				switch(actionCommand) {
 					case "Down":
 						numDirection = 0;
@@ -186,6 +228,15 @@ public class View extends JFrame implements ActionListener{
 					case "Up":
 						numDirection = 3;
 						break;
+					case "Jump":
+						jump = true;
+						break;
+					case "Fire":
+						if(!fire)
+							fire = true;
+						else
+							fire = false;
+						break;
 				}
 				viewUpdate = true;
 			}
@@ -196,8 +247,17 @@ public class View extends JFrame implements ActionListener{
 		protected void paintComponent(Graphics g) {
 			g.setColor(Color.gray);
 			super.paintComponent(g);
-	    	picNum = (picNum + 1) % frameCount;
-	    	g.drawImage(pics[getDirNum()][picNum], xloc, yloc, Color.gray, this);
+	    	if(jump) {
+	    		picNum = (picNum + 1) % frameCountJump;
+	    		g.drawImage(picsJump[getDirNum()][picNum],xloc,yloc,Color.gray,this);
+	    	}else if(fire) {
+	    		picNum = (picNum + 1) % frameCountFire;
+	    		g.drawImage(picsFire[getDirNum()][picNum],xloc,yloc,Color.gray,this);
+	    	}
+	    	else {
+	    		picNum = (picNum + 1) % frameCountForward;
+	    		g.drawImage(picsForward[getDirNum()][picNum], xloc, yloc, Color.gray, this);
+	    	}
 		}
 
 		public Dimension getPreferredSize() {
@@ -245,11 +305,29 @@ public class View extends JFrame implements ActionListener{
 
 	private BufferedImage createImage(int num, Direction direction){ //right now this just loads a single image, since we're just trying to make drawing work
     	BufferedImage bufferedImage;
-    	try {
-    		bufferedImage = ImageIO.read(new File("images/orc/orc_forward_" + direction + ".png"));
-			return bufferedImage;
-    	} catch (IOException e) {
-    		e.printStackTrace();
+    	if(num == 0) {
+    		try {
+    			bufferedImage = ImageIO.read(new File("images/orc/orc_jump_" + direction + ".png"));
+    			return bufferedImage;
+    		}catch (IOException e) {
+    			e.printStackTrace();
+    		}
+    		jump = false;
+    	}else if(num == 1) {
+    		try {
+    			bufferedImage = ImageIO.read(new File("images/orc/orc_fire_" + direction + ".png"));
+    			return bufferedImage;
+    		}catch (IOException e) {
+    			e.printStackTrace();
+    		}
+    		fire = false;
+    	}else if(num == 2) {
+    		try {
+        		bufferedImage = ImageIO.read(new File("images/orc/orc_forward_" + direction + ".png"));
+    			return bufferedImage;
+        	} catch (IOException e) {
+        		e.printStackTrace();
+        	}
     	}
     	return null;
     }
@@ -259,7 +337,9 @@ enum KeyDir {
 	UP("Up",KeyStroke.getKeyStroke(KeyEvent.VK_UP,0)),
 	DOWN("Down",KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,0)),
 	LEFT("Left",KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,0)),
-	RIGHT("Right",KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,0));
+	RIGHT("Right",KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,0)),
+	JUMP("Jump",KeyStroke.getKeyStroke(KeyEvent.VK_J,0)),
+	FIRE("Fire",KeyStroke.getKeyStroke(KeyEvent.VK_F,0));
 	
 	KeyDir(String text, KeyStroke keyStroke) {
 	      this.text = text;
