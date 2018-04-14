@@ -108,7 +108,7 @@ public class Model{
 		}
 	}
 	
-	public void updateLocationAndDirection(boolean viewUpdate, int numDirection) {
+	public void updateLocationAndDirection(boolean viewUpdate, int numDirection, boolean jump, boolean fire) {
 		if(viewUpdate) {
 			switch(numDirection) {
 				case 0:
@@ -125,7 +125,8 @@ public class Model{
 					break;
 			}
 		}
-		switch(direction) {
+		if(!fire) {
+			switch(direction) {
 			case NORTH:
 				if((yLoc) <= 0)
 					direction = Direction.SOUTH;
@@ -191,9 +192,9 @@ public class Model{
 						direction = Direction.NORTHEAST;
 				}
 				break;
-		}
+			}
 		
-		switch(direction) {
+			switch(direction) {
 			case NORTH:
 				yLoc -= yIncr;
 				break;
@@ -222,6 +223,7 @@ public class Model{
 				yLoc -= yIncr;
 				xLoc -= xIncr;
 				break;
-		}
+			}
+		}// end if(!fire)
 	}
 }
