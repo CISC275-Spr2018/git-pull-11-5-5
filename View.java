@@ -40,7 +40,6 @@ public class View extends JFrame implements ActionListener{
     int picNum = 0;
     BufferedImage[][] pics;
 	BufferedImage[] imgs = new BufferedImage[8];
-	Direction direction2 = Direction.SOUTHEAST;
     final int frameWidth = 500;
     final int frameHeight = 300;
     final int picSize = 165;
@@ -58,7 +57,8 @@ public class View extends JFrame implements ActionListener{
     boolean dirChange = false;
     public boolean viewUpdate = false;
     public int numDirection = 0;
-	
+	public boolean jump = false;
+	public boolean fire = false;
     
     public void setUpPanel() {
     	buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -186,6 +186,10 @@ public class View extends JFrame implements ActionListener{
 					case "Up":
 						numDirection = 3;
 						break;
+					case "Fire":
+						fire = true;
+					case "jump":
+						jump = true;
 				}
 				viewUpdate = true;
 			}
@@ -259,7 +263,9 @@ enum KeyDir {
 	UP("Up",KeyStroke.getKeyStroke(KeyEvent.VK_UP,0)),
 	DOWN("Down",KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,0)),
 	LEFT("Left",KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,0)),
-	RIGHT("Right",KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,0));
+	RIGHT("Right",KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,0)),
+	FIRE("Fire", KeyStroke.getKeyStroke(KeyEvent.VK_F,0)),
+	JUMP("Jump", KeyStroke.getKeyStroke(KeyEvent.VK_J,0));
 	
 	KeyDir(String text, KeyStroke keyStroke) {
 	      this.text = text;
