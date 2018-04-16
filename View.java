@@ -255,7 +255,6 @@ public class View extends JFrame implements ActionListener{
 	    			jump = false;
 	    			counter = 0;
 	    		}
-	    		System.out.println("Hi Jump" + jump);
 	    	}else if(fire) {
 	    		picNum = (picNum + 1) % frameCountFire;
 	    		g.drawImage(picsFire[getDirNum()][picNum],xloc,yloc,Color.gray,this);

@@ -16,7 +16,11 @@ import javax.swing.Timer;
 import java.util.*;
 
 //Input new arguments to the call to model object's updateLocationAndDirection to pass in new info from View to Model
-
+/**
+ * Group 11-5 Andrew Riegner, Arnav Bindra, Sumeet Kothare, Tong Zhao, Woody Hu
+ * @author skothare
+ *
+ */
 public class Controller {
 
 	private Model model;
@@ -40,7 +44,7 @@ public class Controller {
 							c.model.setDirect(r.nextInt(7));
 							c.view.setChangeDir(false);
 						}
-						//System.out.println(c.view.jump);
+						
 						c.model.updateLocationAndDirection(c.view.viewUpdate,c.view.numDirection,c.view.jump,c.view.fire);
 						c.view.update(c.model.getX(),c.model.getY(),c.model.getDirect());
 						c.view.viewUpdate = false;
